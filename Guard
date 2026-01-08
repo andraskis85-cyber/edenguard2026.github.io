@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EdenGuard 2026 | Prémium Kertészeti Szakáruház</title>
+    <style>
+        :root {
+            --primary: #1b4332;
+            --secondary: #2d6a4f;
+            --accent: #ff9f1c;
+            --light-bg: #f8fbf8;
+            --white: #ffffff;
+            --text: #2d2d2d;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, sans-serif;
+            margin: 0;
+            background-color: var(--light-bg);
+            color: var(--text);
+            scroll-behavior: smooth;
+        }
+
+        /* HEADER */
+        header {
+            background: var(--white);
+            position: sticky;
+            top: 0;
+            z-index: 2000;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            border-bottom: 4px solid var(--primary);
+        }
+
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 5%;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 900;
+            color: var(--primary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo span { color: var(--accent); }
+
+        .search-container {
+            flex: 0.5;
+            display: flex;
+            background: #f1f3f1;
+            border-radius: 30px;
+            padding: 5px 20px;
+        }
+
+        .search-container input {
+            width: 100%;
+            border: none;
+            background: transparent;
+            padding: 10px;
+            outline: none;
+            font-size: 15px;
+        }
+
+        .user-nav {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .btn-reg {
+            background: var(--primary);
+            color: white;
+            padding: 10px 25px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .btn-reg:hover { background: var(--accent); }
+
+        /* HERO & CATEGORIES */
+        .hero {
+            height: 350px;
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('images.unsplash.com');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            text-align: center;
+        }
+
+        .shop-layout {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 40px;
+            padding: 40px 5%;
+        }
+
+        .sidebar {
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            height: fit-content;
+        }
+
+        .sidebar h3 { color: var(--primary); border-bottom: 2px solid #eee; padding-bottom: 10px; }
+
+        .cat-item {
+            display: block;
+            padding: 10px 0;
+            color: #555;
+            text-decoration: none;
+            font-size: 14px;
+            border-bottom: 1px solid #f9f9f9;
+            transition: 0.2s;
+        }
+
+        .cat-item:hover { color: var(--primary); padding-left: 10px; font-weight: bold; }
+
+        /* PRODUCT GRID */
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 25px;
+        }
+
+        .p-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            transition: 0.4s;
+            border: 1px solid #eee;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .p-card:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
+
+        .p-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .p-info { padding: 20px; text-align: center; }
+
+        .p-price {
+            font-size: 22px;
+            font-weight: 800;
+            color: var(--primary);
+            margin: 10px 0;
+        }
+
+        .btn-buy {
+            background: var(--accent);
+            color: white;
+            border: none;
+            width: 100%;
+            padding: 12px;
+            border-radius: 12px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn-buy:hover { background: var(--primary); }
+
+        footer {
+            background: var(--primary);
+            color: white;
+            padding: 60px 5%;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="header-top">
+        <a href="#" class="logo">EDEN<span>GUARD</span></a>
+        <div class="search-container">
+            <input type="text" id="searchInput" placeholder="Keressen 290 termékünk között...">
+            <button onclick="search()" style="border:none; background:none; cursor:pointer;">🔍</button>
+        </div>
+        <div class="user-nav">
+            <a href="#">Belépés</a>
+            <a href="#" class="btn-reg">Regisztráció</a>
+            <div style="font-size: 20px; cursor:pointer;">🛒 <b id="cartCount">0</b></div>
+        </div>
+    </div>
+</header>
+
+<section class="hero">
+    <h1>Kertészeti Megoldások 2026</h1>
+    <p>A legszebb növények és leghatékonyabb szerek egy helyen.</p>
+</section>
+
+<main class="shop-layout">
+    <aside class="sidebar">
+        <h3>KATEGÓRIÁK</h3>
+        <div id="catMenu"></div>
+    </aside>
+
+    <section>
+        <h2 id="viewTitle" style="color: var(--primary); margin-top: 0;">Kiemelt Ajánlataink</h2>
+        <div class="product-grid" id="productGrid"></div>
+    </section>
+</main>
+
+<footer>
+    <p><b>EdenGuard Kertészeti Master Webáruház</b></p>
+    <p>2026 &copy; Minden jog fenntartva.</p>
+</footer>
+
+<script>
+    const categories = [
+        "ÉVELŐK", "FUTÓ NÖVÉNYEK", "KONTÉNERES GYÜMÖLCSFÁK", "KONTÉNERES SZŐLŐK", 
+        "MŰTRÁGYÁK & TÁPOLDATOK", "SZIKLAKERTI NÖVÉNYEK", "BAMBUSZOK", "BOGYÓS GYÜMÖLCSÖK", 
+        "KÜLÖNLEGES GYÜMÖLCSÖK", "ÖRÖKZÖLD DÍSZCSERJÉK", "DÍSZCSERJÉK", "KÚSZÓ NÖVÉNYEK", 
+        "LEANDEREK", "SÖVÉNYNÖVÉNYEK", "DÍSZFÁK", "DÍSZFÜVEK", "FŰSZERNÖVÉNYEK", 
+        "FENYŐK & ÖRÖKZÖLDEK", "FŰMAGOK", "MAGAS TÖRZSRE OLTOTT NÖVÉNYEK", 
+        "PÁLINKAFŐZÉS KELLÉKEI", "SZŐLŐK (SZABADGYÖKERŰ)", "GYÜMÖLCSFÁK (SZABADGYÖKERŰ)", 
+        "RÓZSÁK", "VETŐMAGOK", "KERTI SZERSZÁMOK", "AJÁNDÉKUTALVÁNY", "TRÓPUSI NÖVÉNYEK", 
+        "GOMBATERMESZTŐ KÉSZLETEK"
+    ];
+
+    // Képek kategóriákhoz
+    const categoryImages = {
+        "ÉVELŐK": "images.unsplash.com",
+        "MŰTRÁGYÁK & TÁPOLDATOK": "images.unsplash.com",
+        "GYÜMÖLCSFÁK (SZABADGYÖKERŰ)": "images.unsplash.com",
+        "default": "images.unsplash.com"
+    };
+
+    let products = [];
+    categories.forEach((cat, cIdx) => {
+        for(let i = 1; i <= 10; i++) {
+            products.push({
+                id: cIdx * 10 + i,
+                cat: cat,
+                name: `${cat} - Prémium #${i}`,
+                price: Math.floor(Math.random() * (15000 - 990) + 990),
+                img: categoryImages[cat] || categoryImages["default"]
+            });
+        }
+    });
+
+    function init() {
+        const menu = document.getElementById('catMenu');
+        categories.forEach(cat => {
+            const a = document.createElement('a');
+            a.className = 'cat-item';
+            a.innerText = cat;
+            a.href = "#";
+            a.onclick = (e) => { e.preventDefault(); filter(cat); };
+            menu.appendChild(a);
+        });
+        render(products.slice(0, 12));
+    }
+
+    function render(list) {
+        const grid = document.getElementById('productGrid');
+        grid.innerHTML = '';
+        list.forEach(p => {
+            grid.innerHTML += `
+                <div class="p-card">
+                    <img src="${p.img}" alt="${p.name}">
+                    <div class="p-info">
+                        <h4>${p.name}</h4>
+                        <div class="p-price">${p.price.toLocaleString()} Ft</div>
+                        <button class="btn-buy" onclick="add()">Kosárba</button>
+                    </div>
+                </div>
+            `;
+        });
+    }
+
+    function filter(cat) {
+        document.getElementById('viewTitle').innerText = cat;
+        render(products.filter(p => p.cat === cat));
+    }
+
+    let count = 0;
+    function add() { document.getElementById('cartCount').innerText = ++count; }
+
+    function search() {
+        const val = document.getElementById('searchInput').value.toLowerCase();
+        render(products.filter(p => p.name.toLowerCase().includes(val)));
+    }
+
+    init();
+</script>
+
+</body>
+</html>
